@@ -1,4 +1,4 @@
-VENV=~/.venv/python2.7
+VENV=~/.venv/python3.8
 SRC=~/GitHub/TD-er/MCVE_ESPxx
 REPO=https://github.com/TD-er/MCVE_ESPxx.git
 BRANCH=master
@@ -30,7 +30,7 @@ done
 # If virtualenv does not exist, make it.
 if [ ! -d ${VENV} ]; then
   mkdir -p ${VENV}
-  virtualenv -p python2.7 ${VENV}
+  virtualenv -p python3.8 ${VENV}
 fi
 
 # if repository directory does not exist, make it and clone repository
