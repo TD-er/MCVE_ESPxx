@@ -1,7 +1,7 @@
 VENV=~/.venv/python2.7
 SRC=~/GitHub/TD-er/MCVE_ESPxx
 REPO=https://github.com/TD-er/MCVE_ESPxx.git
-BRANCH=mega
+BRANCH=master
 
 PIO_BUILDENV=Failing_platform_ESP8266_4M1M
 
