@@ -12,18 +12,21 @@ import os
 # - project source code
 # - frameworks
 # - dependent libraries
-env.Append(CPPDEFINES=[
+cppdefines=[
   "PIO_FRAMEWORK_ARDUINO_ESPRESSIF_SDK22x_190703",
   "ESPEASY_MCVE_BUILD"
   # ,"NO_HTTP_UPDATER"
   # ,("WEBSERVER_RULES_DEBUG", "0")
-])
+]
+
 if os.path.isfile('src/Custom.h'):
-  env['CPPDEFINES'].append("USE_CUSTOM_H")
+  cppdefines.append("USE_CUSTOM_H")
 else:
-  env['CPPDEFINES'].extend([
+  cppdefines.extend([
         "USES_P001",  # Switch
         "USE_SETTINGS_ARCHIVE"
   ])
+
+env.Append(CPPDEFINES=cppdefines)
 
 print(env['CPPDEFINES'])
