@@ -43,7 +43,7 @@ size_t streamWrite_ESPEasy(Stream& stream, size_t nrBytesToWrite)
     }
 
     while (nrBytesToWrite > 0 && !_buffer.empty()) {
-      uint8_t tmpBuffer[1]{};
+      uint8_t tmpBuffer[64]{};
 
       size_t tmpBufferUsed = 0;
 
@@ -141,7 +141,8 @@ bool testCase3(const String& data) {
 void setup() {
   Serial0.begin(115200);
 
-  _hwcdc_serial->setTxBufferSize(128);
+//  _hwcdc_serial->setTxBufferSize(64);
+  _hwcdc_serial->setTxTimeoutMs(1);
 
   _hwcdc_serial->begin();
   Serial0.println("\r\nStarting... open Serial Monitor with CDC port.");
@@ -156,7 +157,7 @@ void setup() {
 //      result &= testCase1(testString);
 //      result &= testCase2(testString);
       result &= testCase3(testString);
-      delay(210);
+//      delay(1);
       ESPEasy_flush();
       if (!result) {
         Serial0.printf("Failed with %d bytes\r\n", i);
