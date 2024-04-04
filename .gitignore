@@ -7,3 +7,5 @@
 .vscode/
 
 tools/vagrant/.vagrant/
+
+*.code-workspace
