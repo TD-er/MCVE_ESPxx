@@ -23,12 +23,13 @@
     "espidf",
     "arduino"
   ],
-  "name": "Espressif Generic ESP32-S2 USB CDC 4M Flash ESPEasy 1810k Code/OTA 316k FS",
+  "name": "Espressif Generic ESP32-S2 4M Flash ESPEasy 1810k Code/OTA 316k FS",
   "upload": {
     "flash_size": "4MB",
     "maximum_ram_size": 327680,
     "maximum_size": 4194304,
-    "before_reset": "usb_reset",
+    "resetmethod": "nodemcu",
+    "before_reset": "default_reset",
     "after_reset": "hard_reset",
     "use_1200bps_touch": true,
     "wait_for_upload_port": true,
