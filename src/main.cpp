@@ -141,8 +141,8 @@ bool testCase3(const String& data) {
 void setup() {
   Serial0.begin(115200);
 
-//  _hwcdc_serial->setTxBufferSize(64);
-  _hwcdc_serial->setTxTimeoutMs(1);
+//  _hwcdc_serial->setTxBufferSize(1024);
+  _hwcdc_serial->setTxTimeoutMs(0);
 
   _hwcdc_serial->begin();
   Serial0.println("\r\nStarting... open Serial Monitor with CDC port.");
