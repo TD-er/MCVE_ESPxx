@@ -9,3 +9,5 @@
 tools/vagrant/.vagrant/
 
 *.code-workspace
+
+.platformio/
