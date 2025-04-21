@@ -2,68 +2,60 @@
 
 #include <WiFi.h>
 
+#include <Wire.h>
+
 // Needed due to preprocessor issues.
 #ifdef PLUGIN_SET_GENERIC_ESP32
   #ifndef ESP32
     #define ESP32
   #endif
 #endif
-#include "WiFi.h"
+
+const uint8_t gpio_pins[]{
+  23,     22,     21,    19,    18,    5
+};
+
+constexpr size_t nrPins = sizeof(gpio_pins) / sizeof(gpio_pins[0]);
+
 
 void setup() {
   Serial.begin(115200);
 
-  // Set WiFi to station mode and disconnect from an AP if it was previously connected.
-  WiFi.mode(WIFI_STA);
-  WiFi.disconnect();
+  for (size_t i = 0; i < nrPins; ++i) {
+    pinMode(gpio_pins[i], OUTPUT);
+  }
+
+  Wire.begin();
+  Wire1.begin();
+  Wire.end();
+
+
+  // Reset default SDA/SCL
+//  gpio_reset_pin(static_cast<gpio_num_t>(21));
+//  gpio_reset_pin(static_cast<gpio_num_t>(22));
+
+
   delay(100);
 
   Serial.println("Setup done");
 }
 
 void loop() {
-  Serial.println("Scan start");
+  Serial.println("Start looping GPIO pins");
 
-  // WiFi.scanNetworks will return the number of networks found.
-  int n = WiFi.scanNetworks();
-  Serial.println("Scan done");
-  if (n == 0) {
-    Serial.println("no networks found");
-  } else {
-    Serial.print(n);
-    Serial.println(" networks found");
-    Serial.println("Nr | SSID                             | RSSI | CH | Encryption");
-    for (int i = 0; i < n; ++i) {
-      // Print SSID and RSSI for each network found
-      Serial.printf("%2d", i + 1);
-      Serial.print(" | ");
-      Serial.printf("%-32.32s", WiFi.SSID(i).c_str());
-      Serial.print(" | ");
-      Serial.printf("%4ld", WiFi.RSSI(i));
-      Serial.print(" | ");
-      Serial.printf("%2ld", WiFi.channel(i));
-      Serial.print(" | ");
-      switch (WiFi.encryptionType(i)) {
-        case WIFI_AUTH_OPEN:            Serial.print("open"); break;
-        case WIFI_AUTH_WEP:             Serial.print("WEP"); break;
-        case WIFI_AUTH_WPA_PSK:         Serial.print("WPA"); break;
-        case WIFI_AUTH_WPA2_PSK:        Serial.print("WPA2"); break;
-        case WIFI_AUTH_WPA_WPA2_PSK:    Serial.print("WPA+WPA2"); break;
-        case WIFI_AUTH_WPA2_ENTERPRISE: Serial.print("WPA2-EAP"); break;
-        case WIFI_AUTH_WPA3_PSK:        Serial.print("WPA3"); break;
-        case WIFI_AUTH_WPA2_WPA3_PSK:   Serial.print("WPA2+WPA3"); break;
-        case WIFI_AUTH_WAPI_PSK:        Serial.print("WAPI"); break;
-        default:                        Serial.print("unknown");
-      }
-      Serial.println();
-      delay(10);
+  int counter = 0;
+  bool state = true;
+
+  for (;;) {
+    for (size_t i = 0; i < nrPins; ++i) {
+//      pinMode(gpio_pins[i], OUTPUT);
+      digitalWrite(gpio_pins[i], state);
+      Serial.print("Set GPIO ");
+      Serial.print(gpio_pins[i]);
+      Serial.print(" to: ");
+      Serial.println(state ? 1 : 0);
+      delay(1000);    
     }
+    state = !state;
   }
-  Serial.println("");
-
-  // Delete the scan result to free memory for code below.
-  WiFi.scanDelete();
-
-  // Wait a bit before scanning again.
-  delay(5000);
 }
